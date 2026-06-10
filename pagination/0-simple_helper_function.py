@@ -1,22 +1,10 @@
-#!/usr/bin/python3
-"""Module for converting XML data to JSON format."""
-import json
-import xml.etree.ElementTree as ET
+#!/usr/bin/env python3
+"""Module for pagination helper function."""
 
 
-def read_xml_and_convert_to_json(xml_filename, json_filename):
-    """Reads an XML file and converts its content to a JSON file"""
-    try:
-        tree = ET.parse(xml_filename)
-        root = tree.getroot()
-
-        data = {}
-        for child in root:
-            data[child.tag] = child.text
-
-        with open(json_filename, "w", encoding="utf-8") as json_f:
-            json.dump(data, json_f)
-
-        return True
-    except Exception:
-        return False
+def index_range(page: int, page_size: int) -> tuple:
+    """Calculate the start and end indexes for a given page and page size"""
+    
+    start_index = (page - 1) * page_size
+    end_index = start_index + page_size
+    return (start_index, end_index)
