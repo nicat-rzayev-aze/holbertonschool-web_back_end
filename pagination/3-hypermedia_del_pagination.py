@@ -43,23 +43,24 @@ class Server:
         """
         Return a dictionary with deletion-resilient pagination metadata.
         """
-        indexed_data = self.indexed_dataset()
-
         if index is None:
             index = 0
 
-        assert type(index) is int and 0 <= index < len(indexed_data)
+        total_original_items = len(self.dataset())
+        
+        assert type(index) is int and 0 <= index < total_original_items
         assert type(page_size) is int and page_size > 0
 
+        indexed_data = self.indexed_dataset()
         data = []
         current_index = index
 
-        while len(data) < page_size and current_index < len(indexed_data):
+        while len(data) < page_size and current_index < total_original_items:
             if current_index in indexed_data:
                 data.append(indexed_data[current_index])
             current_index += 1
 
-        next_index = current_index if current_index < len(indexed_data) else None
+        next_index = current_index if current_index < total_original_items else None
 
         return {
             "index": index,
