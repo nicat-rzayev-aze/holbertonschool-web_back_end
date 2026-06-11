@@ -1,20 +1,32 @@
 #!/usr/bin/env python3
-"""Simple pagination"""
+"""
+Main module for simple pagination tasks.
+"""
 import csv
 import math
 from typing import List, Tuple
 
 
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """
+    Find the correct indexes to paginate the dataset correctly.
+    """
+    start_index = (page - 1) * page_size
+    end_index = page * page_size
+    return (start_index, end_index)
+
+
 class Server:
     """Server class to paginate a database of popular baby names."""
+
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """Initialize the Server instance."""
         self.__dataset = None
 
     def dataset(self) -> List[List]:
-        """Cached dataset
-        """
+        """Cached dataset"""
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
@@ -24,28 +36,16 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        assert type(page_size) is int and type(page) is int
-        assert page > 0
-        assert page_size > 0
-        self.dataset()
-        i = index_range(page, page_size)
-        if i[0] >= len(self.__dataset):
+        """
+        Return the appropriate page of the dataset.
+        """
+        assert type(page) is int and page > 0
+        assert type(page_size) is int and page_size > 0
+
+        data = self.dataset()
+        start, end = index_range(page, page_size)
+
+        if start >= len(data):
             return []
-        else:
-            return self.__dataset[i[0]:i[1]]
 
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """
-    Find the correct indexes to paginate the dataset correctly.
-    
-    Args:
-        page (int): The current page number (1-indexed).
-        page_size (int): The number of items per page.
-        
-    Returns:
-        Tuple[int, int]: A tuple containing the start index and end index.
-    """
-    index = page * page_size - page_size
-    index_1 = index + page_size
-    return (index, index_1)
+        return data[start:end]
