@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import csv
 import math
-from typing import List
+from typing import List, Tuple
 
 
-def index_range(page: int, page_size: int) -> tuple:
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """
     Find the correct indexes to paginate the dataset correctly.
     
@@ -13,7 +13,7 @@ def index_range(page: int, page_size: int) -> tuple:
         page_size (int): The number of items per page.
         
     Returns:
-        tuple: A tuple containing the start index and end index.
+        Tuple[int, int]: A tuple containing the start index and end index.
     """
     start_index = (page - 1) * page_size
     end_index = page * page_size
