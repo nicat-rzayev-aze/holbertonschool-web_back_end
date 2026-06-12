@@ -14,17 +14,17 @@ def log_stats():
     collection = client.logs.nginx
 
     total = collection.count_documents({})
-    print(f"{total} logs")
+    print("{} logs".format(total))
 
     print("Methods:")
     for method in ["GET", "POST", "PUT", "PATCH", "DELETE"]:
         count = collection.count_documents({"method": method})
-        print(f"\tmethod {method}: {count}")
+        print("	method {}: {}".format(method, count))
 
     status_check = collection.count_documents(
         {"method": "GET", "path": "/status"}
     )
-    print(f"{status_check} status check")
+    print("{} status check".format(status_check))
 
 
 if __name__ == "__main__":
