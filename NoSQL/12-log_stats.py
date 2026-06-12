@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
-"""Provides stats about Nginx logs stored in MongoDB."""
+"""
+Provides stats about Nginx logs stored in MongoDB.
+"""
 from pymongo import MongoClient
 
 
 def log_stats():
+    """Provides stats about Nginx logs stored in MongoDB.
+
+    Connects to the logs database and nginx collection,
+    then displays the total number of logs, HTTP method counts,
+    and the number of status check requests.
+    """
     client = MongoClient('mongodb://127.0.0.1:27017')
     collection = client.logs.nginx
 
